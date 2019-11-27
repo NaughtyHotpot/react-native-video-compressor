@@ -71,6 +71,7 @@ public class VideoCompressorModule extends ReactContextBaseJavaModule {
 
             }
         };
+
         if(path!=null){
             String inPath = path;
             if(path.startsWith("file://")){
@@ -80,13 +81,11 @@ public class VideoCompressorModule extends ReactContextBaseJavaModule {
         }else {
             mCompressPromise.reject("0","Compress Failed.");
         }
-
-
-
     }
 
     private void compressVideo(String path, String destPath, VideoCompress.CompressListener listener){
 //        String destPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "VID_" + new SimpleDateFormat("yyyyMMdd_HHmmss", getLocale()).format(new Date()) + ".mp4";
+        compressQuality = VideoCompress.getCompressQuality(path);
         switch (compressQuality) {
             default:
             case COMPRESS_QUALITY_HIGH:
@@ -97,6 +96,12 @@ public class VideoCompressorModule extends ReactContextBaseJavaModule {
                 break;
             case COMPRESS_QUALITY_LOW:
                 VideoCompress.compressVideoLow(path,destPath,listener);
+                break;
+            case 0:
+                WritableMap resultArr = Arguments.createMap();
+                resultArr.putString("path", path);
+                mCompressPromise.resolve(resultArr);
+//                mCompressPromise.reject("1","Not Compressed.");
                 break;
         }
 
