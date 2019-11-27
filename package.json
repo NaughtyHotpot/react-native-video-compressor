@@ -1,6 +1,6 @@
 {
   "name": "react-native-video-compressor",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "react native video compressor, android only",
   "main": "index.js",
   "scripts": {
